@@ -1,0 +1,5 @@
+[submodule "code/cneuromod_extract_tseries"]
+	path = code/cneuromod_extract_tseries
+	url = git@github.com:courtois-neuromod/cneuromod_extract_tseries.git
+	datalad-id = ae0100ab-db64-4559-80e2-f41fed3cc5f4
+	datalad-url = git@github.com:courtois-neuromod/cneuromod_extract_tseries.git
