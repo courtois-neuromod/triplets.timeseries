@@ -1,1 +1,1 @@
-11be1f95-fe3b-4925-8048-0cea4ea14504 autoenable=true bucket=cneuromod.triplets.timeseries chunk=1GiB datacenter=US encryption=none host=s3.unf-montreal.ca name=unfs3.cneuromod.triplets.timeseries port=443 protocol=https requeststyle=path storageclass=STANDARD type=S3 timestamp=1788473826s
+11be1f95-fe3b-4925-8048-0cea4ea14504 autoenable=true bucket=cneuromod.triplets.timeseries chunk=1GiB datacenter=US encryption=none host=s3.unf-montreal.ca name=unfs3.cneuromod.triplets.timeseries port=443 protocol=https requeststyle=path storageclass=STANDARD type=S3 timestamp=1788474110s
