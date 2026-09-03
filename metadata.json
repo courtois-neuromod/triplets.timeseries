@@ -1,0 +1,448 @@
+{
+    "@context": {
+        "@language": "en",
+        "@vocab": "http://schema.org/",
+        "arrayShape": "cr:arrayShape",
+        "dataType": "cr:dataType",
+        "extract": "cr:extract",
+        "field": "cr:field",
+        "fileProperty": "cr:fileProperty",
+        "fileObject": "cr:fileObject",
+        "fileSet": "cr:fileSet",
+        "format": "cr:format",
+        "includes": "cr:includes",
+        "jsonPath": "cr:jsonPath",
+        "parentField": "cr:parentField",
+        "path": "cr:path",
+        "recordSet": "cr:recordSet",
+        "references": "cr:references",
+        "regex": "cr:regex",
+        "source": "cr:source",
+        "transform": "cr:transform",  
+        "sc": "http://schema.org/",
+        "cr": "http://mlcommons.org/croissant/"
+    },
+    "@type": "sc:Dataset",
+    "name": "Triplets Timeseries",
+    "conformsTo": "http://mlcommons.org/croissant/1.1",
+    "description": "A set of standardized, detrended, smoothed, masked and vectorized fMRI timeseries from four CNeuroMod subjects who performed a word comparison task in the scanner. Timeseries were extracted from preprocessed BOLD signal available in the triplets.fmriprep derivates dataset.",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://github.com/courtois-neuromod/triplets.timeseries",
+    "creator": {
+        "@type": "Organization",
+        "name": "The Courtois-NeuroMod Project on Neuronal Modelling."
+    },
+    "datePublished": "2026-07-17",
+    "distribution": [
+        {
+            "@type": "cr:FileObject",
+            "@id": "github-repo",
+            "name": "Archived dataset repository",
+            "description": "The main GitHub archive of the triplets.timeseries dataset repository.",
+            "contentUrl": "https://github.com/courtois-neuromod/triplets.timeseries/archive/refs/heads/main.zip",
+            "encodingFormat": "application/zip",
+            "sha256": "main"
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "cneuromod26-files",
+            "name": "cneuromod26 files",
+            "description": "Parent directory for all cneuromod2026 dataset files (timeseries, atlases and masks).",
+            "containedIn": ["github-repo"],
+            "includes": "timeseries/cneuromod2026/**"
+        },         
+        {
+            "@type": "cr:FileSet",
+            "@id": "cneuromod26-timeseries-files",
+            "name": "cneuromod26 nested BOLD timeseries",
+            "description": "BOLD timeseries extracted with a custom 1134-parcel atlas that complements the schaefer1000 cortical parcels with subcortical and cerebellar parcels.",
+            "containedIn": ["cneuromod26-files"],
+            "includes": "sub-0*/sub-0*_atlas-cneuromod26_desc-1134Parcels_timeseries.h5",
+            "encodingFormat": "application/x-hdf5"           
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "cneuromod26-atlas-files",
+            "name": "cneuromod26 parcellation atlases",
+            "description": "3D dseg brain atlas files mapping subjects' brain voxels to the 1134 cneuromod2026 parcel labels.",
+            "containedIn": ["cneuromod26-files"],
+            "includes": "sub-0*/sub-0*_atlas-cneuromod26_desc-1134Parcels_dseg.nii.gz",
+            "encodingFormat": "application/x-gzipped"
+        },    
+        {
+            "@type": "cr:FileSet",
+            "@id": "cneuromod26-mask-files",
+            "name": "cneuromod26 grey matter masks",
+            "description": "3D binary grey matter masks derived from freesurfer anatomical segmentation used to select brain voxels in each subject to extract timeseries with the cneuromod2026 parcellation atlas.",
+            "containedIn": ["cneuromod26-files"],
+            "includes": "sub-0*/sub-0*_label-GMfromFS_desc-indivFunc_mask.nii.gz",
+            "encodingFormat": "application/x-gzipped"
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "schaefer1000-files",
+            "name": "schaefer1000 files",
+            "description": "Parent directory for all schaefer1000 dataset files (timeseries, atlases and masks).",
+            "containedIn": ["github-repo"],
+            "includes": "timeseries/schaefer1000/**"
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "schaefer1000-timeseries-files",
+            "name": "schaefer1000 nested BOLD timeseries",
+            "description": "BOLD timeseries extracted with the schaefer1000 cortical parcellation atlas (7 networks).",
+            "containedIn": ["schaefer1000-files"],
+            "includes": "sub-0*/sub-0*_atlas-Schaefer2018_desc-1000Parcels7Networks_timeseries.h5",
+            "encodingFormat": "application/x-hdf5"           
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "schaefer1000-atlas-files",
+            "name": "schaefer1000 parcellation atlases",
+            "description": "3D dseg brain atlas files mapping subjects' brain voxels to the schaefer1000 parcel labels.",
+            "containedIn": ["schaefer1000-files"],
+            "includes": "sub-0*/sub-0*_atlas-Schaefer2018_desc-1000Parcels7Networks_dseg.nii.gz",
+            "encodingFormat": "application/x-gzipped"
+        },    
+        {
+            "@type": "cr:FileSet",
+            "@id": "schaefer1000-mask-files",
+            "name": "schaefer1000 grey matter masks",
+            "description": "3D binary masks used to select brain voxels to extract timeseries with the schaefer1000 parcellation atlas. Masks were based on the template MNI152NLin2009cAsym grey matter mask intersected with a functional mask derived from the Friends dataset in each subject.",
+            "containedIn": ["schaefer1000-files"],
+            "includes": "sub-0*/sub-0*_label-GMfromTemplate_desc-indivFunc_mask.nii.gz",
+            "encodingFormat": "application/x-gzipped"
+        }, 
+        {
+            "@type": "cr:FileSet",
+            "@id": "voxel_mni-files",
+            "name": "voxel_mni files",
+            "description": "Parent directory for all voxel_mni dataset files (timeseries, atlases and mask).",
+            "containedIn": ["github-repo"],
+            "includes": "timeseries/voxel_mni/**"
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "voxel_mni-timeseries-files",
+            "name": "voxel_mni nested BOLD timeseries",
+            "description": "Voxel-wise BOLD timeseries in MNI space. Signal was extracted within a grey matter mask of the whole brain.",
+            "containedIn": ["voxel_mni-files"],
+            "includes": "sub-0*/sub-0*_space-MNI152NLin2009cAsym_desc-voxelwise_timeseries.h5",
+            "encodingFormat": "application/x-hdf5"           
+        },   
+        {
+            "@type": "cr:FileObject",
+            "@id": "voxel_mni-mask-file",
+            "name": "Grey matter mask in MNI space",
+            "description": "3D binary mask used to extract voxelwise timeseries in MNI space. The template MNI152NLin2009cAsym grey matter mask was intersected with functional masks derived from the Friends dataset in each subject.",
+            "containedIn": ["voxel_mni-files"],
+            "includes": "task-triplets_space-MNI152NLin2009cAsym_label-GMfromTemplate_desc-AllFunc_mask.nii.gz",
+            "encodingFormat": "application/x-gzipped"
+        },        
+        {
+            "@type": "cr:FileSet",
+            "@id": "voxel_native-files",
+            "name": "voxel_native files",
+            "description": "Parent directory for all voxel_native dataset files (timeseries, atlases and masks).",
+            "containedIn": ["github-repo"],
+            "includes": "timeseries/voxel_native/**"
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "voxel_native-timeseries-files",
+            "name": "voxel_native nested BOLD timeseries",
+            "description": "Voxel-wise BOLD timeseries in native subject space. Signal was extracted within individual grey matter masks of the whole brain.",
+            "containedIn": ["voxel_native-files"],
+            "includes": "sub-0*/sub-0*_space-T1w_desc-voxelwise_timeseries.h5",
+            "encodingFormat": "application/x-hdf5"           
+        },
+        {
+            "@type": "cr:FileSet",
+            "@id": "voxel_native-mask-files",
+            "name": "Grey matter masks in native space",
+            "description": "3D binary grey matter masks derived from freesurfer anatomical segmentation used to extract voxelwise timeseries in each subject.",
+            "containedIn": ["voxel_native-files"],
+            "includes": "sub-0*/sub-0*_space-T1w_label-GMfromFS_desc-indivFunc_mask.nii.gz",
+            "encodingFormat": "application/x-gzipped"
+        }                
+    ],
+    "recordSet": [
+        {
+            "@type": "cr:RecordSet",
+            "@id": "cneuromod26-recordset",
+            "name": "cneuromod26-recordset",
+            "description": "A recordset yields one record for each fMRI run completed by a subject, and links each 2D timeseries matrix to its subject-level mask and atlas files.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "cneuromod26-recordset/subject-id",
+                    "name": "subject_id",
+                    "description": "The subject identifier (e.g., sub-01) parsed from the directory structure.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "cneuromod26-timeseries-files" },
+                        "fileProperty": "fullpath",
+                        "transform": {
+                            "regex": "sub-([0-6]+)"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "cneuromod26-recordset/session-run",
+                    "name": "session_run_identifier",
+                    "description": "The exact path to the run timeseries matrix inside the HDF5 (e.g., ses-007/ses-007_task-triplets_run-1_timeseries).",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "cneuromod26-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*~"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "cneuromod26-recordset/timeseries-matrix",
+                    "name": "run timeseries matrix",
+                    "description": "The 2D floating-point timeseries array (timepoints, parcels) corresponding to the current HDF5 path.",
+                    "dataType": "sc:Float",
+                    "arrayShape": "[-1, 1134]",
+                    "source": {
+                        "fileSet": { "@id": "cneuromod26-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "cneuromod26-recordset/atlas-nifti",
+                    "name": "associated_atlas_file",
+                    "description": "The path to the NIfTI file corresponding to this subject's 3D atlas.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": "cneuromod26-recordset/subject-id"
+                    },
+                    "source": {
+                        "fileSet": { "@id": "cneuromod26-atlas-files" },
+                        "fileProperty": "fullpath"
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "cneuromod26-recordset/mask-nifti",
+                    "name": "grey matter mask_file",
+                    "description": "The path to the NIfTI file corresponding to this subject's 3D binary grey matter mask.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": "cneuromod26-recordset/subject-id"
+                    },
+                    "source": {
+                        "fileSet": { "@id": "cneuromod26-mask-files" },
+                        "fileProperty": "fullpath"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "schaefer1000-recordset",
+            "name": "schaefer1000-recordset",
+            "description": "A recordset yields one record for each fMRI run completed by a subject, and links each 2D timeseries matrix to its subject-level mask and atlas files.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "schaefer1000-recordset/subject-id",
+                    "name": "subject_id",
+                    "description": "The subject identifier (e.g., sub-01) parsed from the directory structure.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "schaefer1000-timeseries-files" },
+                        "fileProperty": "fullpath",
+                        "transform": {
+                            "regex": "sub-([0-6]+)"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "schaefer1000-recordset/session-run",
+                    "name": "session_run_identifier",
+                    "description": "The exact path to the run timeseries matrix inside the HDF5 (e.g., ses-007/ses-007_task-triplets_run-1_timeseries).",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "schaefer1000-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*~"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "schaefer1000-recordset/timeseries-matrix",
+                    "name": "run timeseries matrix",
+                    "description": "The 2D floating-point timeseries array (timepoints, parcels) corresponding to the current HDF5 path.",
+                    "dataType": "sc:Float",
+                    "arrayShape": "[-1, 1000]",
+                    "source": {
+                        "fileSet": { "@id": "schaefer1000-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "schaefer1000-recordset/atlas-nifti",
+                    "name": "associated_atlas_file",
+                    "description": "The path to the NIfTI file corresponding to this subject's 3D atlas.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": "schaefer1000-recordset/subject-id"
+                    },
+                    "source": {
+                        "fileSet": { "@id": "schaefer1000-atlas-files" },
+                        "fileProperty": "fullpath"
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "schaefer1000-recordset/mask-nifti",
+                    "name": "grey matter mask_file",
+                    "description": "The path to the NIfTI file corresponding to this subject's 3D binary grey matter mask.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": "schaefer1000-recordset/subject-id"
+                    },
+                    "source": {
+                        "fileSet": { "@id": "schaefer1000-mask-files" },
+                        "fileProperty": "fullpath"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "voxel_mni-recordset",
+            "name": "voxel_mni-recordset",
+            "description": "A recordset yields one record for each fMRI run completed by a subject, and links each 2D timeseries matrix to its dataset-level mask file.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_mni-recordset/subject-id",
+                    "name": "subject_id",
+                    "description": "The subject identifier (e.g., sub-01) parsed from the directory structure.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "voxel_mni-timeseries-files" },
+                        "fileProperty": "fullpath",
+                        "transform": {
+                            "regex": "sub-([0-6]+)"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_mni-recordset/session-run",
+                    "name": "session_run_identifier",
+                    "description": "The exact path to the run timeseries matrix inside the HDF5 (e.g., ses-007/ses-007_task-triplets_run-1_timeseries).",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "voxel_mni-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*~"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_mni-recordset/timeseries-matrix",
+                    "name": "run timeseries matrix",
+                    "description": "The 2D floating-point timeseries array (timepoints, voxels) corresponding to the current HDF5 path.",
+                    "dataType": "sc:Float",
+                    "arrayShape": "[-1, 197010]",
+                    "source": {
+                        "fileSet": { "@id": "voxel_mni-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_mni-recordset/mask-nifti",
+                    "name": "grey matter mask_file",
+                    "description": "The path to the NIfTI file corresponding to this dataset's 3D binary grey matter mask.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "voxel_mni-mask-file" },
+                        "fileProperty": "fullpath"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "voxel_native-recordset",
+            "name": "voxel_native-recordset",
+            "description": "A recordset yields one record for each fMRI run completed by a subject, and links each 2D timeseries matrix to its subject-level mask files.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_native-recordset/subject-id",
+                    "name": "subject_id",
+                    "description": "The subject identifier (e.g., sub-01) parsed from the directory structure.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "voxel_native-timeseries-files" },
+                        "fileProperty": "fullpath",
+                        "transform": {
+                            "regex": "sub-([0-6]+)"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_native-recordset/session-run",
+                    "name": "session_run_identifier",
+                    "description": "The exact path to the run timeseries matrix inside the HDF5 (e.g., ses-007/ses-007_task-triplets_run-1_timeseries).",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileSet": { "@id": "voxel_native-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*~"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_native-recordset/timeseries-matrix",
+                    "name": "run timeseries matrix",
+                    "description": "The 2D floating-point timeseries array (timepoints, voxels) corresponding to the current HDF5 path.",
+                    "dataType": "sc:Float",
+                    "arrayShape": "[-1, num_vox]",
+                    "source": {
+                        "fileSet": { "@id": "voxel_native-timeseries-files" },
+                        "extract": {
+                            "jsonPath": "$..*"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "voxel_native-recordset/mask-nifti",
+                    "name": "grey matter mask_file",
+                    "description": "The path to the NIfTI file corresponding to this subject' 3D binary grey matter mask.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": "voxel_native-recordset/subject-id"
+                    },
+                    "source": {
+                        "fileSet": { "@id": "voxel_native-mask-files" },
+                        "fileProperty": "fullpath"
+                    }
+                }
+            ]
+        }  
+    ]
+}
