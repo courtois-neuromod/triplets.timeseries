@@ -3,8 +3,3 @@
 	url = git@github.com:courtois-neuromod/cneuromod_extract_tseries.git
 	datalad-id = ae0100ab-db64-4559-80e2-f41fed3cc5f4
 	datalad-url = git@github.com:courtois-neuromod/cneuromod_extract_tseries.git
-[submodule "sourcedata/triplets.fmriprep"]
-	path = sourcedata/triplets.fmriprep
-	url = git@github.com:courtois-neuromod/triplets.fmriprep.git
-	datalad-id = 6eb11d57-4cd5-4220-b22e-0b628c382a7c
-	datalad-url = git@github.com:courtois-neuromod/triplets.fmriprep.git
